@@ -5,50 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MickelTV</title>
   <meta name="theme-color" content="#0e0e0e" />
-  <meta name="description" content="Jump to Jellyfin or Jellyseer on MickelTV." />
-  <link rel="preconnect" href="https://www.mickeltv.com" />
   <style>
     :root { --bg:#0e0e0e; --fg:#e9eef3; --muted:#9aa4ad; --card:#17191c; --accent:#1e90ff; --accent-2:#7c4dff; }
-    * { box-sizing: border-box }
+    * { box-sizing:border-box }
     html,body { height:100% }
-    body {
+    body{
       margin:0; background:radial-gradient(1200px 600px at 10% -10%, #18202a55, transparent),
       radial-gradient(1000px 500px at 110% 10%, #22183a55, transparent), var(--bg);
-      color:var(--fg); font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
+      color:var(--fg); font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif;
       display:flex; align-items:center; justify-content:center; padding:24px;
     }
-    .wrap { width:min(960px,100%); }
-    header { text-align:center; margin-bottom:24px; }
-    h1 { margin:0 0 6px; font-size:clamp(28px,4.5vw,44px); letter-spacing:.3px; }
-    p.sub { margin:0; color:var(--muted) }
-    .grid {
-      display:grid; gap:16px;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      margin-top:24px;
+    .wrap{width:min(960px,100%)}
+    header{text-align:center;margin-bottom:24px}
+    h1{margin:0 0 6px;font-size:clamp(28px,4.5vw,44px);letter-spacing:.3px}
+    p.sub{margin:0;color:var(--muted)}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:24px}
+    .card{background:linear-gradient(180deg,#1a1d22 0%,var(--card) 100%);border:1px solid #262a30;border-radius:16px;padding:20px;text-decoration:none;color:inherit;position:relative;overflow:hidden;transition:transform .12s ease,border-color .12s ease;display:flex;align-items:center;gap:16px;min-height:96px}
+    .card:hover{transform:translateY(-2px);border-color:#2e333b}
+    .icon{width:54px;height:54px;flex:none;border-radius:12px;display:grid;place-items:center;background:#122640}
+    .icon svg{width:32px;height:32px}
+    .jf{background:#0f2a53}
+    .js{background:#2a1a55}
+    .row{display:flex;flex-direction:column;gap:2px}
+    .title{font-weight:700;font-size:1.1rem}
+    .desc{color:var(--muted);font-size:.95rem}
+    .small{font-size:.85rem;color:var(--muted)}
+    .btns{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+    button.copy{
+      appearance:none;border:1px solid #2b3240;background:#1a2130;color:#dce6f2;
+      padding:8px 10px;border-radius:10px;font-size:.9rem;cursor:pointer
     }
-    .card {
-      background:linear-gradient(180deg, #1a1d22 0%, var(--card) 100%);
-      border:1px solid #262a30; border-radius:16px; padding:20px;
-      text-decoration:none; color:inherit; position:relative; overflow:hidden;
-      transition: transform .12s ease, border-color .12s ease;
-      display:flex; align-items:center; gap:16px; min-height:96px;
-    }
-    .card:hover { transform: translateY(-2px); border-color:#2e333b }
-    .icon {
-      width:54px; height:54px; flex:none; border-radius:12px; display:grid; place-items:center;
-      background:#122640; /* default */
-    }
-    .icon svg { width:32px; height:32px; }
-    .jf { background:#0f2a53 }
-    .js { background:#2a1a55 }
-    .title { font-weight:700; font-size:1.1rem; }
-    .desc { color:var(--muted); font-size:.95rem; margin-top:2px }
-    footer { margin-top:20px; text-align:center; color:var(--muted); font-size:.9rem }
-    .row { display:flex; flex-direction:column }
-    .small { font-size:.85rem; margin-top:4px }
-    .grid .card:active { transform:translateY(0) scale(.995) }
-    /* Big tap targets on mobile */
-    @media (pointer:coarse) { .card { min-height:110px; } }
+    button.copy:hover{border-color:#3a4356}
+    footer{margin-top:20px;text-align:center;color:var(--muted);font-size:.9rem}
+    /* toast */
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#111a;backdrop-filter:blur(8px);
+      color:#fff;padding:10px 14px;border:1px solid #2a2e35;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .15s ease}
+    .toast.show{opacity:1}
+    @media (pointer:coarse){.card{min-height:110px}}
   </style>
 </head>
 <body>
@@ -62,7 +55,6 @@
       <!-- Jellyfin -->
       <a class="card" href="/tv" rel="nofollow">
         <div class="icon jf" aria-hidden="true">
-          <!-- Jellyfin-ish play “wave” icon -->
           <svg viewBox="0 0 64 64" fill="none">
             <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#66b3ff"/><stop offset="1" stop-color="#1e90ff"/></linearGradient></defs>
             <path fill="url(#g1)" d="M32 6c-5.9 0-11.4 3.1-16.2 9.2C10.8 21.1 8 27.3 8 32s2.8 10.9 7.8 16.8C20.6 54.9 26.1 58 32 58s11.4-3.1 16.2-9.2C53.2 42.9 56 36.7 56 32s-2.8-10.9-7.8-16.8C43.4 9.1 37.9 6 32 6Zm-5 13.5 16 12.5-16 12.5V19.5Z"/>
@@ -72,13 +64,15 @@
           <div class="title">Jellyfin</div>
           <div class="desc">Watch your library</div>
           <div class="small">Shortcut: <code>mickeltv.com/tv</code></div>
+          <div class="btns">
+            <button class="copy" data-copy="https://mickeltv.com/tv" type="button">Copy server URL</button>
+          </div>
         </div>
       </a>
 
       <!-- Jellyseer -->
       <a class="card" href="/select" rel="nofollow">
         <div class="icon js" aria-hidden="true">
-          <!-- Magnifier/search icon -->
           <svg viewBox="0 0 24 24" fill="none" stroke="#c9b7ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="7"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -88,6 +82,9 @@
           <div class="title">Jellyseer</div>
           <div class="desc">Search & request media</div>
           <div class="small">Shortcut: <code>mickeltv.com/select</code></div>
+          <div class="btns">
+            <button class="copy" data-copy="https://mickeltv.com/select" type="button">Copy link</button>
+          </div>
         </div>
       </a>
     </section>
@@ -95,8 +92,33 @@
     <footer>&copy; <span id="year"></span> MickelTV</footer>
   </main>
 
+  <div class="toast" id="toast">Copied!</div>
+
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    const toast = document.getElementById('toast');
+    function showToast(text){
+      toast.textContent = text || 'Copied!';
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), 1200);
+    }
+    document.querySelectorAll('button.copy').forEach(btn=>{
+      btn.addEventListener('click', async (e)=>{
+        try {
+          await navigator.clipboard.writeText(btn.dataset.copy);
+          showToast('Link copied');
+        } catch {
+          // Fallback: create input, select, copy
+          const tmp = document.createElement('input');
+          tmp.value = btn.dataset.copy;
+          document.body.appendChild(tmp);
+          tmp.select(); document.execCommand('copy');
+          tmp.remove();
+          showToast('Link copied');
+        }
+        e.stopPropagation(); // don’t follow the card link
+      });
+    });
   </script>
 </body>
 </html>
