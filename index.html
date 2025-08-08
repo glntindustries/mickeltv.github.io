@@ -2,36 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MickelTV</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/64/Icon-TV.svg" type="image/svg+xml">
   <style>
     body {
-      font-family: sans-serif;
-      background: #0e0e0e;
-      color: white;
-      text-align: center;
-      padding: 50px;
+      font-family: Arial, sans-serif;
+      background-color: #0e0e0e;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
     }
     h1 {
       font-size: 3em;
+      margin-bottom: 20px;
     }
-    a.button {
+    .button {
       display: inline-block;
-      padding: 15px 30px;
-      margin: 20px;
+      padding: 15px 40px;
+      margin: 15px;
+      font-size: 1.3em;
+      color: #fff;
       background-color: #1e90ff;
-      color: white;
+      border: none;
       border-radius: 8px;
       text-decoration: none;
-      font-size: 1.2em;
+      transition: background-color 0.3s;
     }
-    a.button:hover {
+    .button:hover {
       background-color: #0f7ae5;
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9em;
+      color: #888;
     }
   </style>
 </head>
 <body>
   <h1>Welcome to MickelTV</h1>
-  <a href="/tv" class="button">Watch on Jellyfin</a>
-  <a href="/select" class="button">Search on Jellyseer</a>
+  <a class="button" href="/tv">Watch on Jellyfin</a>
+  <a class="button" href="/select">Search on Jellyseer</a>
+  <footer>&copy; <span id="year"></span> MickelTV</footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
